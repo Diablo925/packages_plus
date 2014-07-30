@@ -34,6 +34,7 @@ class module_controller extends ctrl_module
     static $ok;
     static $edit;
     static $samepackage;
+	static $mysqlok;
 
     /**
      * The 'worker' methods.
@@ -107,6 +108,7 @@ class module_controller extends ctrl_module
                     'diskquota' => ($rowpackages['qt_diskspace_bi'] / 1024000),
                     'bandquota' => ($rowpackages['qt_bandwidth_bi'] / 1024000),
                     'mailboxes' => $rowpackages['qt_mailboxes_in'],
+					'mailquota' => $rowpackages['qt_mailquota_in'],
                     'packagename' => stripslashes($rowpackages['pk_name_vc'])));
             }
             return $res;
@@ -157,10 +159,10 @@ class module_controller extends ctrl_module
         return true;
     }
 
-    static function ExecuteCreatePackage($uid, $packagename, $EnablePHP, $EnableCGI, $Domains, $SubDomains, $ParkedDomains, $Mailboxes, $Fowarders, $DistLists, $FTPAccounts, $MySQL, $DiskQuota, $BandQuota)
+    static function ExecuteCreatePackage($uid, $packagename, $EnablePHP, $EnableCGI, $Domains, $SubDomains, $ParkedDomains, $Mailboxes, $MailQuota, $Fowarders, $DistLists, $FTPAccounts, $MySQL, $DiskQuota, $BandQuota)
     {
         global $zdbh;
-        if (fs_director::CheckForEmptyValue(self::CheckNumeric($EnablePHP, $EnableCGI, $Domains, $SubDomains, $ParkedDomains, $Mailboxes, $Fowarders, $DistLists, $FTPAccounts, $MySQL, $DiskQuota, $BandQuota))) {
+        if (fs_director::CheckForEmptyValue(self::CheckNumeric($EnablePHP, $EnableCGI, $Domains, $SubDomains, $ParkedDomains, $Mailboxes, $MailQuota, $Fowarders, $DistLists, $FTPAccounts, $MySQL, $DiskQuota, $BandQuota))) {
             return false;
         }
         $packagename = str_replace(' ', '', $packagename);
@@ -204,6 +206,7 @@ class module_controller extends ctrl_module
 										qt_subdomains_in,
 										qt_parkeddomains_in,
 										qt_mailboxes_in,
+										qt_mailquota_in,
 										qt_fowarders_in,
 										qt_distlists_in,
 										qt_ftpaccounts_in,
@@ -215,6 +218,7 @@ class module_controller extends ctrl_module
 										:SubDomains,
 										:ParkedDomains,
 										:Mailboxes,
+										:Mailquota,
 										:Fowarders,
 										:DistLists,
 										:FTPAccounts,
@@ -229,6 +233,7 @@ class module_controller extends ctrl_module
         $sql->bindParam(':DistLists', $DistLists);
         $sql->bindParam(':Fowarders', $Fowarders);
         $sql->bindParam(':Mailboxes', $Mailboxes);
+		$sql->bindParam(':Mailquota', $MailQuota);
         $sql->bindParam(':SubDomains', $SubDomains);
         $sql->bindParam(':FTPAccounts', $FTPAccounts);
         $sql->bindParam(':ParkedDomains', $ParkedDomains);
@@ -240,10 +245,10 @@ class module_controller extends ctrl_module
         return true;
     }
 
-    static function ExecuteUpdatePackage($uid, $pid, $packagename, $EnablePHP, $EnableCGI, $Domains, $SubDomains, $ParkedDomains, $Mailboxes, $Fowarders, $DistLists, $FTPAccounts, $MySQL, $DiskQuota, $BandQuota)
+    static function ExecuteUpdatePackage($uid, $pid, $packagename, $EnablePHP, $EnableCGI, $Domains, $SubDomains, $ParkedDomains, $Mailboxes, $MailQuota, $Fowarders, $DistLists, $FTPAccounts, $MySQL, $DiskQuota, $BandQuota)
     {
         global $zdbh;
-        if (fs_director::CheckForEmptyValue(self::CheckNumeric($EnablePHP, $EnableCGI, $Domains, $SubDomains, $ParkedDomains, $Mailboxes, $Fowarders, $DistLists, $FTPAccounts, $MySQL, $DiskQuota, $BandQuota))) {
+        if (fs_director::CheckForEmptyValue(self::CheckNumeric($EnablePHP, $EnableCGI, $Domains, $SubDomains, $ParkedDomains, $Mailboxes, $MailQuota, $Fowarders, $DistLists, $FTPAccounts, $MySQL, $DiskQuota, $BandQuota))) {
             return false;
         }
         $packagename = str_replace(' ', '', $packagename);
@@ -269,6 +274,7 @@ class module_controller extends ctrl_module
 								qt_ftpaccounts_in   = :FTPAccounts,
 								qt_subdomains_in    = :SubDomains,
 								qt_mailboxes_in     = :Mailboxes,
+								qt_mailquota_in     = :MailQuota,
 								qt_fowarders_in     = :Fowarders,
 								qt_distlists_in     = :DistLists,
 								qt_diskspace_bi     = :DiskQuotaFinal,
@@ -283,6 +289,7 @@ class module_controller extends ctrl_module
         $sql->bindParam(':DistLists', $DistLists);
         $sql->bindParam(':Fowarders', $Fowarders);
         $sql->bindParam(':Mailboxes', $Mailboxes);
+		$sql->bindParam(':MailQuota', $MailQuota);
         $sql->bindParam(':SubDomains', $SubDomains);
         $sql->bindParam(':FTPAccounts', $FTPAccounts);
         $sql->bindParam(':ParkedDomains', $ParkedDomains);
@@ -334,7 +341,7 @@ class module_controller extends ctrl_module
         return true;
     }
 
-    static function CheckNumeric($EnablePHP, $EnableCGI, $Domains, $SubDomains, $ParkedDomains, $Mailboxes, $Fowarders, $DistLists, $FTPAccounts, $MySQL, $DiskQuota, $BandQuota)
+    static function CheckNumeric($EnablePHP, $EnableCGI, $Domains, $SubDomains, $ParkedDomains, $Mailboxes, $MailQuota, $Fowarders, $DistLists, $FTPAccounts, $MySQL, $DiskQuota, $BandQuota)
     {
         if (!is_numeric($EnablePHP) ||
                 !is_numeric($EnableCGI) ||
@@ -342,6 +349,7 @@ class module_controller extends ctrl_module
                 !is_numeric($SubDomains) ||
                 !is_numeric($ParkedDomains) ||
                 !is_numeric($Mailboxes) ||
+				!is_numeric($MailQuota) ||
                 !is_numeric($Fowarders) ||
                 !is_numeric($DistLists) ||
                 !is_numeric($FTPAccounts) ||
@@ -387,6 +395,37 @@ class module_controller extends ctrl_module
     /**
      * Webinterface sudo methods.
      */
+	 
+	 // Get default quote ADD by Diablo925
+	static function getMailQuote()
+		{
+			global $zdbh;
+			global $controller;
+        		$sql = "SELECT * FROM x_settings WHERE so_name_vc=:name";
+				$name = 'max_mail_size';
+            	$sql = $zdbh->prepare($sql);
+            	$sql->bindParam(':name', $name);
+            	$sql->execute();
+            	while ($row = $sql->fetch()) 
+				{ 
+				$res = $row['so_value_tx']; 
+				}
+				return $res;
+	}
+		
+	static function doUpdateMysql()
+    {
+		global $zdbh;
+		global $controller;
+		$Mysqlupdate = 'modules/' . $controller->GetControllerRequest('URL', 'module') . '/code/update.php';
+        if (file_exists($Mysqlupdate)) {
+		$add = $zdbh->prepare("ALTER TABLE x_quotas ADD qt_mailquota_in INT(6) NULL AFTER qt_mailboxes_in");
+		$add->execute();
+		self::$mysqlok = true;
+		unlink($Mysqlupdate);
+		}
+	}
+	 
     static function doCreatePackage()
     {
         global $controller;
@@ -403,7 +442,7 @@ class module_controller extends ctrl_module
         } else {
             $EnableCGI = 0;
         }
-        if (self::ExecuteCreatePackage($currentuser['userid'], $formvars['inPackageName'], $EnablePHP, $EnableCGI, $formvars['inNoDomains'], $formvars['inNoSubDomains'], $formvars['inNoParkedDomains'], $formvars['inNoMailboxes'], $formvars['inNoFowarders'], $formvars['inNoDistLists'], $formvars['inNoFTPAccounts'], $formvars['inNoMySQL'], $formvars['inDiskQuota'], $formvars['inBandQuota']))
+        if (self::ExecuteCreatePackage($currentuser['userid'], $formvars['inPackageName'], $EnablePHP, $EnableCGI, $formvars['inNoDomains'], $formvars['inNoSubDomains'], $formvars['inNoParkedDomains'], $formvars['inNoMailboxes'], $formvars['inMailQuota'], $formvars['inNoFowarders'], $formvars['inNoDistLists'], $formvars['inNoFTPAccounts'], $formvars['inNoMySQL'], $formvars['inDiskQuota'], $formvars['inBandQuota']))
             return true;
         return false;
     }
@@ -424,7 +463,7 @@ class module_controller extends ctrl_module
         } else {
             $EnableCGI = 0;
         }
-        if (self::ExecuteUpdatePackage($currentuser['userid'], $formvars['inPackageID'], $formvars['inPackageName'], $EnablePHP, $EnableCGI, $formvars['inNoDomains'], $formvars['inNoSubDomains'], $formvars['inNoParkedDomains'], $formvars['inNoMailboxes'], $formvars['inNoFowarders'], $formvars['inNoDistLists'], $formvars['inNoFTPAccounts'], $formvars['inNoMySQL'], $formvars['inDiskQuota'], $formvars['inBandQuota']))
+        if (self::ExecuteUpdatePackage($currentuser['userid'], $formvars['inPackageID'], $formvars['inPackageName'], $EnablePHP, $EnableCGI, $formvars['inNoDomains'], $formvars['inNoSubDomains'], $formvars['inNoParkedDomains'], $formvars['inNoMailboxes'], $formvars['inMailQuota'], $formvars['inNoFowarders'], $formvars['inNoDistLists'], $formvars['inNoFTPAccounts'], $formvars['inNoMySQL'], $formvars['inDiskQuota'], $formvars['inBandQuota']))
             return true;
         return false;
     }
@@ -574,6 +613,16 @@ class module_controller extends ctrl_module
             return "";
         }
     }
+	static function getEditCurrentMailQuota()
+    {
+        global $controller;
+        if ($controller->GetControllerRequest('URL', 'other')) {
+            $current = self::ListCurrentPackage($controller->GetControllerRequest('URL', 'other'));
+            return $current[0]['mailquota'];
+        } else {
+            return "";
+        }
+    }
 
     static function getEditCurrentForwarders()
     {
@@ -689,6 +738,9 @@ class module_controller extends ctrl_module
         if (!fs_director::CheckForEmptyValue(self::$ok)) {
             return ui_sysmessage::shout(ui_language::translate("Changes to your packages have been saved successfully!"), "zannounceok");
         }
+		if (!fs_director::CheckForEmptyValue(self::$mysqlok)) {
+		return ui_sysmessage::shout(ui_language::translate("Mysql-Databse updatet"), "zannounceok");
+		}
         return;
     }
 
