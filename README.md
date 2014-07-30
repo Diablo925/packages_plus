@@ -5,7 +5,6 @@ Version: 1.0.0<br />
 
 
 ##Description
-=============
 Allows to change email quota on a package
 
 ##Author
