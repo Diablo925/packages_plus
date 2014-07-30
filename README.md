@@ -6,6 +6,7 @@ Version: 1.0.0<br />
 
 ##Description
 Allows to change email quota on a package
+You also need [mailboxes_plus](https://github.com/Diablo925/mailboxes_plus) to works
 
 ##Author
 Module is edit by Diablo925 [@github](https://github.com/Diablo925) 
