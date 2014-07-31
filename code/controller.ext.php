@@ -39,6 +39,33 @@ class module_controller extends ctrl_module
     /**
      * The 'worker' methods.
      */
+	 
+	 /*public static function getMailboxesPlus()
+    {
+		global $zdbh;
+		$sql = "SELECT * FROM x_modules WHERE mo_folder_vc=mailboxes_plus";
+		$numrows = $zdbh->prepare($sql);
+		$numrows->execute();
+    	$result = $numrows->fetch();
+    	if (!$result) { 
+		$msg = "You do not have <b>Mailboxes Plus</b> install you need to install it to works";
+		return $msg;}
+		
+	}*/
+	
+	 	 public static function getMysqlUpdates()
+    {
+		global $zdbh;
+		global $controller;
+		$Mysqlupdate = 'modules/' . $controller->GetControllerRequest('URL', 'module') . '/code/update.php';
+        if (file_exists($Mysqlupdate)) {
+			$msg = "You need to update SQL database <form action='./?module=packages_plus&action=UpdateMysql' method='post'>
+			<button class='button-loader btn btn-primary' type='submit' id='button'>Update now</button>
+			</form>";
+			return $msg;
+		}
+	}
+	 
     static function ListPackages($uid)
     {
         global $zdbh;
