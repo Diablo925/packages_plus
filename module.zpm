@@ -18,8 +18,6 @@
 
     <@ Result @>
 	
-	<@ MysqlUpdates @>
-	
     <% if isDeletePackage %>
     <div class="zform_wrapper alert alert-danger">
         <h2><: Delete package :>: <@ EditCurrentPackageName @> ?</h2>

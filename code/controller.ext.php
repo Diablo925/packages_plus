@@ -53,7 +53,7 @@ class module_controller extends ctrl_module
 		
 	}*/
 	
-	 	 public static function getMysqlUpdates()
+	 	 /* public static function getMysqlUpdates()
     {
 		global $zdbh;
 		global $controller;
@@ -65,7 +65,7 @@ class module_controller extends ctrl_module
 			return $msg;
 		}
 	}
-	 
+	 */
     static function ListPackages($uid)
     {
         global $zdbh;
@@ -440,7 +440,7 @@ class module_controller extends ctrl_module
 				return $res;
 	}
 		
-	static function doUpdateMysql()
+	/* static function doUpdateMysql()
     {
 		global $zdbh;
 		global $controller;
@@ -451,7 +451,7 @@ class module_controller extends ctrl_module
 		self::$mysqlok = true;
 		unlink($Mysqlupdate);
 		}
-	}
+	} */
 	 
     static function doCreatePackage()
     {

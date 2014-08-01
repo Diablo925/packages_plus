@@ -1,0 +1,30 @@
+<?php
+/**
+ *
+ * Installer for Packages Plus Module for ZPanel 10.1.1
+ * Version : 110
+ */
+ 
+require_once('cnf/db.php');
+require_once('dryden/db/driver.class.php');
+require_once('dryden/debug/logger.class.php');
+require_once('dryden/runtime/dataobject.class.php');
+require_once('dryden/sys/versions.class.php');
+require_once('dryden/ctrl/options.class.php');
+require_once('dryden/ctrl/auth.class.php');
+require_once('dryden/ctrl/users.class.php');
+require_once('dryden/fs/director.class.php');
+require_once('inc/dbc.inc.php');
+
+
+//install
+installModule();
+
+function installModule(){
+    global $zdbh;
+        
+    //alter zpanel_core tables 
+	$sql = $zdbh->prepare("ALTER TABLE x_quotas ADD qt_mailquota_in INT(6) NULL AFTER qt_mailboxes_in");
+	$sql->execute();
+}
+?>
