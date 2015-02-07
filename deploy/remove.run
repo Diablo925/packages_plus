@@ -1,8 +1,8 @@
 <?php
 /**
  *
- * Un-Installer for Packages Plus Module for ZPanel 10.1.1
- * Version : 110
+ * Un-Installer for Packages Plus Module for sentora 1.0.0
+ * Version : 100
  */
  
 require_once('cnf/db.php');
@@ -22,7 +22,7 @@ removeModule();
 
 function removeModule(){
     global $zdbh;
-	$sql = $zdbh->prepare("ALTER TABLE  zpanel_core.'x_quotas' DROP 'qt_mailquota_in'");
+	$sql = $zdbh->prepare("ALTER TABLE  sentora_core.'x_quotas' DROP 'qt_mailquota_in'");
     $sql->execute();
 	}
 ?>

@@ -1,8 +1,8 @@
 <?php
 /**
  *
- * Upgrade for Packages Plus Module for ZPanel 10.1.1
- * Version : 110
+ * Upgrade for Packages Plus Module for sentora 1.0.0
+ * Version : 100
  */
  
 require_once('cnf/db.php');
@@ -17,7 +17,7 @@ require_once('dryden/fs/director.class.php');
 require_once('inc/dbc.inc.php');
 
 
-UpgradeModule('110', 'mailboxes_plus');
+UpgradeModule('100', 'packages_plus');
 
 function UpgradeModule($newversion, $module){
     global $zdbh;

@@ -17,7 +17,7 @@
     </div>
 
     <@ Result @>
-	
+
     <% if isDeletePackage %>
     <div class="zform_wrapper alert alert-danger">
         <h2><: Delete package :>: <@ EditCurrentPackageName @> ?</h2>
@@ -66,10 +66,6 @@
                     <td><input type="checkbox" name="inEnablePHP" id="inEnablePHP" value="1" <@ PHPChecked @>/></td>
                 </tr>
                 <tr>
-                    <th><: Enable CGI :>:</th>
-                    <td><input type="checkbox" name="inEnableCGI" id="inEnableCGI" value="1" <@ CGIChecked @>/></td>
-                </tr>
-                <tr>
                     <th><: No. Domains :>:</th>
                     <td><input name="inNoDomains" type="text" id="inNoDomains" size="5" maxlength="3" value="<@ EditCurrentDomains @>" onkeypress="return isNumberKeyOrNeg(event)"/> (-1 = unlimited)</td>
                 </tr>
@@ -85,9 +81,8 @@
                     <th><: No. Mailboxes :>:</th>
                     <td><input name="inNoMailboxes" type="text" id="inNoMailboxes" size="5" maxlength="3" value="<@ EditCurrentMailboxes @>" onkeypress="return isNumberKeyOrNeg(event)"/> (-1 = unlimited)</td>
                 </tr>
-				<tr>
-                    <th><: Mail quota :>:</th>
-                    <td><input name="inMailQuota" type="text" id="inMailQuota" size="5" maxlength="4" value="<@ EditCurrentMailQuota @>" onkeypress="return isNumberKeyOrNeg(event)"/> In MB</td>
+				<th><: Mailboxes quota :>:</th>
+                    <td><input name="inMailQuota" type="text" id="inMailboxes" size="5" maxlength="3" value="<@ EditCurrentMailQuota @>" onkeypress="return isNumberKeyOrNeg(event)"/> MB</td>
                 </tr>
                 <tr>
                     <th><: No. Forwarders :>:</th>
@@ -172,10 +167,6 @@
                     <td><input type="checkbox" name="inEnablePHP" id="inEnablePHP" value="1" /></td>
                 </tr>
                 <tr>
-                    <th><: Enable CGI :>:</th>
-                    <td><input type="checkbox" name="inEnableCGI" id="inEnableCGI" value="1" /></td>
-                </tr>
-                <tr>
                     <th><: No. Domains :>:</th>
                     <td><input name="inNoDomains" type="text" id="inNoDomains" value="0" size="5" maxlength="3" onkeypress="return isNumberKeyOrNeg(event)" /> (-1 = unlimited)</td>
                 </tr>
@@ -192,8 +183,8 @@
                     <td><input name="inNoMailboxes" type="text" id="inNoMailboxes" value="0" size="5" maxlength="3" onkeypress="return isNumberKeyOrNeg(event)" /> (-1 = unlimited)</td>
                 </tr>
 				<tr>
-                    <th><: Mail quota :>:</th>
-                    <td><input name="inMailQuota" type="text" id="inMailQuota" value="<@ MailQuote @>" size="5" maxlength="4" onkeypress="return isNumberKeyOrNeg(event)" /> In MB</td>
+                    <th><: Mailboxes quota  :>:</th>
+                    <td><input name="inMailQuota" type="text" id="inMailQuota" value="<@ MailQuote @>" size="5" maxlength="3" onkeypress="return isNumberKeyOrNeg(event)" /> MB</td>
                 </tr>
                 <tr>
                     <th><: No. Forwarders :>:</th>
